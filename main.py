@@ -66,19 +66,19 @@ class dbsql:
 def Menu(self):
     #Hero, city, map, adventure
     left_buttons=[(Button,'Bohater'),(Button,'Miasto'),(Button,'Mapa'),(Button,'Przygoda')]
-    self.layout = BoxLayout(orientation='horizontal',padding=20,spacing=5)
+    layout = BoxLayout(orientation='horizontal',padding=20,spacing=5)
     self.layout_l = GridLayout(cols=1,size_hint=(0.2,1))
     self.layout_r = BoxLayout(orientation='horizontal',size_hint=(0.8,1))
-    self.layout.add_widget(self.layout_l)
-    self.layout.add_widget(self.layout_r)
+    layout.add_widget(self.layout_l)
+    layout.add_widget(self.layout_r)
     for num in left_buttons:
-        self.wid_t=num[0]
-        self.wid_te=num[1]
-        self.btn=self.wid_t(text=self.wid_te,font_size='15dp')
-        self.btn.texture_update()
-        self.layout_l.add_widget(self.btn)
+        wid_t=num[0]
+        wid_te=num[1]
+        btn=wid_t(text=wid_te,font_size='15dp')
+        btn.texture_update()
+        self.layout_l.add_widget(btn)
     
-    self.add_widget(self.layout)
+    self.add_widget(layout)
 
 class BeginScreen(Screen):
     
