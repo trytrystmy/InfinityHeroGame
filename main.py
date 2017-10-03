@@ -14,7 +14,7 @@ from kivy.uix.widget import Widget
 #from win32api import GetSystemMetrics
 #print "Width =", GetSystemMetrics(0)
 #print "Height =", GetSystemMetrics(1)
-class dbsql:
+class GlobalAction:
     
     def sqlddl(conn, sql):
         try:
@@ -56,16 +56,13 @@ class dbsql:
             conf_value=''' INSERT INTO conf (INTRO)
                  VALUES ('False');'''
             conn = sqlite3.connect('infinity_hero_game.db')
-            dbsql.sqlddl(conn, heroes_table)
-            dbsql.sqlddl(conn, conf_table)
-            dbsql.sqlddl(conn, conf_value)
-    #def create_hero(maxhp,maxmana,level,stre,dext,inte,luck):
-    #    name=BeginScreen.ids.test
-    #    print (name)
+            GlobalAction.sqlddl(conn, heroes_table)
+            GlobalAction.sqlddl(conn, conf_table)
+            GlobalAction.sqlddl(conn, conf_value)
     
 def Menu(self):
     #Hero, city, map, adventure
-    left_buttons=[(Button,'Bohater'),(Button,'Miasto'),(Button,'Mapa'),(Button,'Przygoda')]
+    left_buttons=[(Button,'Hero'),(Button,'City'),(Button,'Map'),(Button,'Adventure')]
     layout = BoxLayout(orientation='horizontal',padding=20,spacing=5)
     self.layout_l = GridLayout(cols=1,size_hint=(0.2,1))
     self.layout_r = BoxLayout(orientation='horizontal',size_hint=(0.8,1))
@@ -79,24 +76,15 @@ def Menu(self):
         self.layout_l.add_widget(btn)
     
     self.add_widget(layout)
-
-class BeginScreen(Screen):
-    
+class IntroWidget(Widget):
+    pass
+class StatsWidget(Widget):
+    pass
+class BeginScreen(Screen): 
     def __init__(self,**kwargs):
         super().__init__()
         if 1==1:
-            layout = BoxLayout(orientation='vertical',padding=20,spacing=5,)
-            #Welcome travele! it looks like is your first adventure, sit down and choose your name
-            btn=Label(text=str('Witaj podróżniku! Wygląda na to że to Twój początek przygody..\nUsiadź wygodnie i wpisz imię swojej postaci.'))
-            layout.add_widget(btn)
-            btn=TextInput(id='test',text='')
-            layout.add_widget(btn)
-            #my name is!
-            btn=Button(text='Wybrałem!')
-            #on_press=dbsql.create_hero(10,10,1,1,1,1,1)
-            layout.add_widget(btn)
-            self.add_widget(layout)
-            print(layout.ids) 
+            print(self.ids) 
         else:
             pass
             #pokaz statystyki, nazwa level, czas gry
@@ -105,7 +93,7 @@ class BohaterScreen(Screen):
     def __init__(self,**kwargs):
         super().__init__()
         Menu(self)
-        btn=Button(text=str('Hej!'))
+        btn=Button(text=str('Hi!'))
         self.layout_r.add_widget(btn)
         
 class InfinityHeroApp(App):   
@@ -116,10 +104,12 @@ class InfinityHeroApp(App):
         sm = ScreenManager()
         sm.add_widget(BeginScreen(name='intro'))
         sm.add_widget(BohaterScreen(name='bohater'))
-        dbsql()
+        GlobalAction()
         return sm
     def on_pre_leave(self):
         dbsql.conn.close()
+    def create_hero(self,name):
+        print(name)
         
     
 

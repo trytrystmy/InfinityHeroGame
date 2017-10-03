@@ -1,0 +1,14 @@
+<BeginScreen>:
+	BoxLayout:
+		orientation:'vertical'
+		padding:20
+		spacing:5
+		Label:
+			text:'Welcome traveler! Its look like is your first adventure..\nSit down please and choose your name!'
+		TextInput:
+			id:test
+			text:''
+		Button:
+			text:'I Choose!!'
+			on_press:app.create_hero(root.ids.test.text)
+		
