@@ -85,18 +85,18 @@ class BeginScreen(Screen):
     def __init__(self,**kwargs):
         super().__init__()
         if 1==1:
-            self.layout = BoxLayout(orientation='vertical',padding=20,spacing=5,)
+            layout = BoxLayout(orientation='vertical',padding=20,spacing=5,)
             #Welcome travele! it looks like is your first adventure, sit down and choose your name
-            self.btn=Label(text=str('Witaj podróżniku! Wygląda na to że to Twój początek przygody..\nUsiadź wygodnie i wpisz imię swojej postaci.'))
-            self.layout.add_widget(self.btn)
-            self.btn=TextInput(id='test',text='')
-            self.layout.add_widget(self.btn)
+            btn=Label(text=str('Witaj podróżniku! Wygląda na to że to Twój początek przygody..\nUsiadź wygodnie i wpisz imię swojej postaci.'))
+            layout.add_widget(btn)
+            btn=TextInput(id='test',text='')
+            layout.add_widget(btn)
             #my name is!
-            self.btn=Button(text='Wybrałem!')
+            btn=Button(text='Wybrałem!')
             #on_press=dbsql.create_hero(10,10,1,1,1,1,1)
-            self.layout.add_widget(self.btn)
-            self.add_widget(self.layout)
-            #print(self.layout.ids) why i have no ids?
+            layout.add_widget(btn)
+            self.add_widget(layout)
+            print(layout.ids) 
         else:
             pass
             #pokaz statystyki, nazwa level, czas gry
@@ -105,8 +105,8 @@ class BohaterScreen(Screen):
     def __init__(self,**kwargs):
         super().__init__()
         Menu(self)
-        self.btn=Button(text=str('Hej!'))
-        self.layout_r.add_widget(self.btn)
+        btn=Button(text=str('Hej!'))
+        self.layout_r.add_widget(btn)
         
 class InfinityHeroApp(App):   
     from kivy.config import Config
@@ -116,7 +116,6 @@ class InfinityHeroApp(App):
         sm = ScreenManager()
         sm.add_widget(BeginScreen(name='intro'))
         sm.add_widget(BohaterScreen(name='bohater'))
-        #pamietaj o zmianie kolejnosci screenow 1 jes twyswietalny jako pierwszy
         dbsql()
         return sm
     def on_pre_leave(self):
