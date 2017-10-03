@@ -64,6 +64,7 @@ class dbsql:
     #    print (name)
     
 def Menu(self):
+    #Hero, city, map, adventure
     left_buttons=[(Button,'Bohater'),(Button,'Miasto'),(Button,'Mapa'),(Button,'Przygoda')]
     self.layout = BoxLayout(orientation='horizontal',padding=20,spacing=5)
     self.layout_l = GridLayout(cols=1,size_hint=(0.2,1))
@@ -85,15 +86,17 @@ class BeginScreen(Screen):
         super().__init__()
         if 1==1:
             self.layout = BoxLayout(orientation='vertical',padding=20,spacing=5,)
+            #Welcome travele! it looks like is your first adventure, sit down and choose your name
             self.btn=Label(text=str('Witaj podróżniku! Wygląda na to że to Twój początek przygody..\nUsiadź wygodnie i wpisz imię swojej postaci.'))
             self.layout.add_widget(self.btn)
             self.btn=TextInput(id='test',text='')
             self.layout.add_widget(self.btn)
+            #my name is!
             self.btn=Button(text='Wybrałem!')
             #on_press=dbsql.create_hero(10,10,1,1,1,1,1)
             self.layout.add_widget(self.btn)
             self.add_widget(self.layout)
-            print(self.layout.ids)
+            #print(self.layout.ids) why i have no ids?
         else:
             pass
             #pokaz statystyki, nazwa level, czas gry
