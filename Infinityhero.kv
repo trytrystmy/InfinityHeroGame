@@ -5,10 +5,17 @@
 		spacing:5
 		Label:
 			text:'Welcome traveler! Its look like is your first adventure..\nSit down please and choose your name!'
-		TextInput:
-			id:test
+		Label:
+			id:validate
 			text:''
+			size_hint:(1,.001)
+		TextInput:
+			id:name
+			text:''
+			multiline:False
+			size_hint:(1,.5)
+			font_size:'25dp'
 		Button:
 			text:'I Choose!!'
-			on_press:app.create_hero(root.ids.test.text)
+			on_press:root.create_hero(root.ids.name.text,root.ids.validate)
 		

@@ -16,8 +16,9 @@ from kivy.uix.widget import Widget
 #print "Height =", GetSystemMetrics(1)
 class GlobalAction:
     
-    def sqlddl(conn, sql):
+    def sqlrun(sql):
         try:
+            conn = sqlite3.connect('infinity_hero_game.db')
             c = conn.cursor()
             c.execute(sql)
             conn.commit()
@@ -55,11 +56,14 @@ class GlobalAction:
 );"""
             conf_value=''' INSERT INTO conf (INTRO)
                  VALUES ('False');'''
-            conn = sqlite3.connect('infinity_hero_game.db')
-            GlobalAction.sqlddl(conn, heroes_table)
-            GlobalAction.sqlddl(conn, conf_table)
-            GlobalAction.sqlddl(conn, conf_value)
-    
+            GlobalAction.sqlrun(heroes_table)
+            GlobalAction.sqlrun(conf_table)
+            GlobalAction.sqlrun(conf_value)
+    def create_hero(name,maxhp=10,hp=10,maxmana=5,mana=5,lvl=1,exp=0,stre=1,dext=1,inte=1,luck=1,attack=10,magicattack=5,defense=0,magicdefense=0):
+        create_character=''' INSERT INTO Heroes (Name,MaxHp,Hp,Maxmana,Mana,Level,Exp,Str,Dext,Int,Luck,Attack,MagicAttack,Defense,MagicDefense)
+             VALUES ('{0}',{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14});'''.format(name,maxhp,hp,maxmana,mana,lvl,exp,stre,dext,inte,luck,attack,magicattack,defense,magicdefense)
+        print(create_character)
+        GlobalAction.sqlrun(create_character)
 def Menu(self):
     #Hero, city, map, adventure
     left_buttons=[(Button,'Hero'),(Button,'City'),(Button,'Map'),(Button,'Adventure')]
@@ -83,11 +87,20 @@ class StatsWidget(Widget):
 class BeginScreen(Screen): 
     def __init__(self,**kwargs):
         super().__init__()
-        if 1==1:
-            print(self.ids) 
+    def create_hero(self,name,validate):
+        name=" ".join(name.split())
+        if name=='':
+            validate.text='Can not be empy!'
+            validate.size_hint=(1,0.7)
+        if len(name)>15:
+            validate.text='Too much letter max 15!'
+            validate.size_hint=(1,0.7)
+            self.ids.name.text=''
         else:
-            pass
-            #pokaz statystyki, nazwa level, czas gry
+            GlobalAction.create_hero(name)
+            
+             
+        
     
 class BohaterScreen(Screen):
     def __init__(self,**kwargs):
@@ -108,8 +121,7 @@ class InfinityHeroApp(App):
         return sm
     def on_pre_leave(self):
         dbsql.conn.close()
-    def create_hero(self,name):
-        print(name)
+    
         
     
 
