@@ -1,6 +1,6 @@
 from kivy.app import App
 from kivy.uix.button import Button
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import ScreenManager, Screen,NoTransition
 from kivy.clock import mainthread
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -14,6 +14,7 @@ from kivy.uix.widget import Widget
 #from win32api import GetSystemMetrics
 #print "Width =", GetSystemMetrics(0)
 #print "Height =", GetSystemMetrics(1)
+ 
 class GlobalAction:
     
     def sqlrun(sql):
@@ -62,7 +63,6 @@ class GlobalAction:
     def create_hero(name,maxhp=10,hp=10,maxmana=5,mana=5,lvl=1,exp=0,stre=1,dext=1,inte=1,luck=1,attack=10,magicattack=5,defense=0,magicdefense=0):
         create_character=''' INSERT INTO Heroes (Name,MaxHp,Hp,Maxmana,Mana,Level,Exp,Str,Dext,Int,Luck,Attack,MagicAttack,Defense,MagicDefense)
              VALUES ('{0}',{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14});'''.format(name,maxhp,hp,maxmana,mana,lvl,exp,stre,dext,inte,luck,attack,magicattack,defense,magicdefense)
-        print(create_character)
         GlobalAction.sqlrun(create_character)
 def Menu(self):
     #Hero, city, map, adventure
@@ -77,52 +77,46 @@ def Menu(self):
         wid_te=num[1]
         btn=wid_t(text=wid_te,font_size='15dp')
         btn.texture_update()
-        self.layout_l.add_widget(btn)
-    
+        self.layout_l.add_widget(btn) 
     self.add_widget(layout)
 class IntroWidget(Widget):
     pass
 class StatsWidget(Widget):
     pass
-class BeginScreen(Screen): 
+class BeginScreen(Screen):
     def __init__(self,**kwargs):
         super().__init__()
+         
     def create_hero(self,name,validate):
         name=" ".join(name.split())
         if name=='':
             validate.text='Can not be empy!'
             validate.size_hint=(1,0.7)
-        if len(name)>15:
+        elif len(name)>15:
             validate.text='Too much letter max 15!'
             validate.size_hint=(1,0.7)
             self.ids.name.text=''
         else:
             GlobalAction.create_hero(name)
-            
-             
-        
-    
+            sm.current='bohater'
+               
 class BohaterScreen(Screen):
     def __init__(self,**kwargs):
         super().__init__()
         Menu(self)
         btn=Button(text=str('Hi!'))
         self.layout_r.add_widget(btn)
-        
-class InfinityHeroApp(App):   
-    from kivy.config import Config
-    Config.set('graphics', 'width', '800')
-    Config.set('graphics', 'height', '400')
-    def build(self):
-        sm = ScreenManager()
+from kivy.config import Config
+Config.set('graphics', 'width', '800')
+Config.set('graphics', 'height', '400')
+sm = ScreenManager(transition=NoTransition())
+class InfinityHeroApp(App):
+      
+    def build(self): 
         sm.add_widget(BeginScreen(name='intro'))
         sm.add_widget(BohaterScreen(name='bohater'))
         GlobalAction()
         return sm
     def on_pre_leave(self):
         dbsql.conn.close()
-    
-        
-    
-
 InfinityHeroApp().run()
