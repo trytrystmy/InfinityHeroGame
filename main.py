@@ -23,8 +23,14 @@ class GlobalAction:
             c = conn.cursor()
             c.execute(sql)
             conn.commit()
+            rows=c.fetchall()
+            values=[]
+            for element in rows:
+                values.append(element)
+            return values
         except Error as e:
             pass
+            
     def __init__(self):
         if os.path.exists('infinity_hero_game.db')==True:
             try:  
@@ -79,9 +85,7 @@ def Menu(self):
         btn.texture_update()
         self.layout_l.add_widget(btn) 
     self.add_widget(layout)
-class IntroWidget(Widget):
-    pass
-class StatsWidget(Widget):
+class InfoScreen(Screen):
     pass
 class BeginScreen(Screen):
     def __init__(self,**kwargs):
@@ -98,7 +102,13 @@ class BeginScreen(Screen):
             self.ids.name.text=''
         else:
             GlobalAction.create_hero(name)
+            conf_intro_true=''' UPDATE conf
+   SET INTRO = 'True'
+ WHERE id = 1;'''
+            GlobalAction.sqlrun(conf_intro_true)
             sm.current='bohater'
+            
+
                
 class BohaterScreen(Screen):
     def __init__(self,**kwargs):
@@ -112,11 +122,25 @@ Config.set('graphics', 'height', '400')
 sm = ScreenManager(transition=NoTransition())
 class InfinityHeroApp(App):
       
-    def build(self): 
-        sm.add_widget(BeginScreen(name='intro'))
+    def build(self):
+        check_intro='''SELECT INTRO
+  FROM conf
+ WHERE id = 1;
+'''
+        a=GlobalAction.sqlrun(check_intro)
+        print(a[0])
+        print(a)     
+        if a[0]==True:
+            print(True)
+            sm.add_widget(InfoScreen(name='info'))
+        else:
+            print(False)
+            sm.add_widget(BeginScreen(name='begin'))
         sm.add_widget(BohaterScreen(name='bohater'))
+        
         GlobalAction()
         return sm
     def on_pre_leave(self):
         dbsql.conn.close()
+
 InfinityHeroApp().run()
