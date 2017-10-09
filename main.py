@@ -128,14 +128,9 @@ class InfinityHeroApp(App):
  WHERE id = 1;
 '''
         a=GlobalAction.sqlrun(check_intro)
-        print(a[0])
-        print(a)     
-        if a[0]==True:
-            print(True)
-            sm.add_widget(InfoScreen(name='info'))
-        else:
-            print(False)
+        if a[0][0]=='False':
             sm.add_widget(BeginScreen(name='begin'))
+            
         sm.add_widget(BohaterScreen(name='bohater'))
         
         GlobalAction()
