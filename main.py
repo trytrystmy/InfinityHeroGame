@@ -15,8 +15,7 @@ from kivy.uix.widget import Widget
 #print "Width =", GetSystemMetrics(0)
 #print "Height =", GetSystemMetrics(1)
  
-class GlobalAction:
-    
+class GlobalAction:    
     def sqlrun(sql):
         try:
             conn = sqlite3.connect('infinity_hero_game.db')
@@ -71,8 +70,7 @@ class GlobalAction:
              VALUES ('{0}',{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14});'''.format(name,maxhp,hp,maxmana,mana,lvl,exp,stre,dext,inte,luck,attack,magicattack,defense,magicdefense)
         GlobalAction.sqlrun(create_character)
 def Menu(self):
-    #Hero, city, map, adventure
-    left_buttons=[(Button,'Hero'),(Button,'City'),(Button,'Map'),(Button,'Adventure')]
+    left_buttons=[(Button,'Hero','stats'),(Button,'City','city'),(Button,'Map','map'),(Button,'Adventure','adventure')]
     layout = BoxLayout(orientation='horizontal',padding=20,spacing=5)
     self.layout_l = GridLayout(cols=1,size_hint=(0.2,1))
     self.layout_r = BoxLayout(orientation='horizontal',size_hint=(0.8,1))
@@ -81,16 +79,14 @@ def Menu(self):
     for num in left_buttons:
         wid_t=num[0]
         wid_te=num[1]
-        btn=wid_t(text=wid_te,font_size='15dp')
+        wid_cl=num[2]
+        btn=wid_t(text=wid_te,font_size='15dp',on_press=self.click_me(wid_cl))
         btn.texture_update()
         self.layout_l.add_widget(btn) 
     self.add_widget(layout)
-class InfoScreen(Screen):
-    pass
 class BeginScreen(Screen):
     def __init__(self,**kwargs):
         super().__init__()
-         
     def create_hero(self,name,validate):
         name=" ".join(name.split())
         if name=='':
@@ -107,21 +103,24 @@ class BeginScreen(Screen):
  WHERE id = 1;'''
             GlobalAction.sqlrun(conf_intro_true)
             sm.current='bohater'
-            
-
-               
+class StatsScreen(Screen):
+    def __init__(self,**kwargs):
+        super().__init__()
+        Menu(self)
 class BohaterScreen(Screen):
     def __init__(self,**kwargs):
         super().__init__()
         Menu(self)
-        btn=Button(text=str('Hi!'))
+        btn=Label(text=str('All'))
         self.layout_r.add_widget(btn)
+    def click_me(self,name):
+        sm.current='stats'
+           
 from kivy.config import Config
 Config.set('graphics', 'width', '800')
 Config.set('graphics', 'height', '400')
 sm = ScreenManager(transition=NoTransition())
 class InfinityHeroApp(App):
-      
     def build(self):
         check_intro='''SELECT INTRO
   FROM conf
@@ -130,12 +129,12 @@ class InfinityHeroApp(App):
         a=GlobalAction.sqlrun(check_intro)
         if a[0][0]=='False':
             sm.add_widget(BeginScreen(name='begin'))
-            
+        else:
+            pass   
         sm.add_widget(BohaterScreen(name='bohater'))
-        
+        sm.add_widget(StatsScreen(name='stats'))
         GlobalAction()
         return sm
     def on_pre_leave(self):
         dbsql.conn.close()
-
 InfinityHeroApp().run()
