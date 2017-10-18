@@ -1,5 +1,4 @@
-<BeginScreen>:
-	name:'begin'
+<NewGameScreen>:
 	BoxLayout:
 		orientation:'vertical'
 		padding:20
@@ -19,9 +18,204 @@
 		Button:
 			text:'I Choose!!'
 			on_press:root.create_hero(root.ids.name.text,root.ids.validate)
-<StatsScreen>:
-	name:'stats'
-<BohaterScreen>:
-	name:'bohater'
+<Label>:
+	font_size:'12dp'
+<HeroScreen>:
+	name:'hero'
+	BoxLayout:
+		padding:8
+		orientation:'horizontal'
+		Menu:
+		BoxLayout:
+			orientation:'vertical'
+			size_hint:(.8,1)
+			GridLayout:
+				size_hint:(1,.1)
+				rows:2
+				cols:7
+				Label:
+					id:gold
+					text:''
+				Label:
+					id:hp
+					text:''
+				Label:
+					id:mana
+					text:''
+				Label:
+					id:attack
+					text:''
+				Label:
+					id:mattack
+					text:''
+				Label:
+					id:defense
+					text:''
+				Label:
+					id:mdefense
+					text:''
+				Label:
+					id:lvl
+					text:''
+				Label:
+					id:stre
+					text:''
+				Label:
+					id:dext
+					text:''
+				Label:
+					id:inte
+					text:''
+				Label:
+					id:luck
+					text:''
+			GridLayout:
+				cols:2
+				size_hint:(1,.9)
+				GridLayout:
+					size_hint:(.3,1)
+					cols:3
+				#	canvas:
+				#		Rectangle:
+				#			source:
+				#			size: self.size
+				#			pos: self.pos
 
-
+					Button:
+						text:'Kolczyk'
+					#	canvas:
+					#		Rectangle:
+					#			source:'test.png'
+					#			size: self.size
+					#			pos: self.pos						
+					Button:
+						text:'Helm'
+					Button:
+						text:'Kolczyk'
+					Button:
+						text:'Bron'
+					Button:
+						text:'Zbroja'
+					Button:
+						text:'Bron'
+					Button:
+						text:'Pierscien'
+					Button:
+						text:'Buty'
+					Button:
+						text:'Pierscien'
+				GridLayout:
+					id:eq_grid
+					padding:10
+					spacing:5
+					size_hint:(.7,1)
+					cols:5
+					Button:
+						id:eq_1
+					Button:
+						id:eq_2
+					Button:
+						id:eq_3
+					Button:
+						id:eq_4
+					Button:
+						id:eq_5
+					Button:
+						id:eq_6
+					Button:
+						id:eq_7
+					Button:
+						id:eq_8
+					Button:
+						id:eq_9
+					Button:
+						id:eq_10
+					Button:
+						id:eq_11
+					Button:
+						id:eq_12
+					Button:
+						id:eq_13
+					Button:
+						id:eq_14
+					Button:
+						id:eq_15
+					Button:
+						id:eq_16
+					Button:
+						id:eq_17
+					Button:
+						id:eq_18
+					Button:
+						id:eq_19
+					Button:
+						id:eq_20
+					Button:
+						id:eq_21
+					Button:
+						id:eq_22
+					Button:
+						id:eq_23
+					Button:
+						id:eq_24
+					Button:
+						id:eq_25
+					Button:
+						id:eq_26
+					Button:
+						id:eq_27
+					Button:
+						id:eq_28
+					Button:
+						id:eq_29
+					Button:
+						id:eq_30
+<CityScreen>:
+	name:'city'
+	BoxLayout:
+		orientation:'horizontal'
+		Menu:
+		BoxLayout:
+			orientation:'vertical'
+			size_hint:(.8,1)
+			Button:
+				text:'City'
+<MapScreen>:
+	name:'map'
+	BoxLayout:
+		orientation:'horizontal'
+		Menu:
+		BoxLayout:
+			orientation:'vertical'
+			size_hint:(.8,1)
+			Button:
+				text:'Map'
+<AdventureScreen>:
+	name:'adventure'
+	BoxLayout:
+		orientation:'horizontal'
+		Menu:
+		BoxLayout:
+			orientation:'vertical'
+			size_hint:(.8,1)
+			Button:
+				text:'Adventure'
+			
+<Menu@GridLayout>:
+	padding:12
+	spacing:5
+	id:menu
+	cols:1
+	size_hint:(.2,1)
+	Button:
+		text:'Hero'
+		on_press:app.change_ss('hero')
+	Button:
+		text:'City'
+		on_press:app.change_ss('city')
+	Button:
+		text:'Map'
+		on_press:app.change_ss('map')
+	Button:
+		text:'Adventure'
+		on_press:app.change_ss('adventure')		
