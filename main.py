@@ -150,6 +150,7 @@ class HeroScreen(Screen):
                     c=GlobalAction.sqlrun(select_item_properte)
                     self.ids[id_btn].background_normal=c[0][15]
                     self.ids[id_btn].background_down=c[0][15]
+                    self.ids[id_btn].bind(on_press=lambda x:self.item_popup())
             except IndexError:
                 pass
                 
@@ -170,7 +171,7 @@ class HeroScreen(Screen):
         self.ids.luck.text='Luck '+str(a[0][11])
     def on_leave(self):
         pass
-    def item_popout(*arg):
+    def item_popup(*arg):
         box=BoxLayout(orientation='vertical')
         box.add_widget(Button(text='Info'))
         box.add_widget(Button(text='Equipment'))
@@ -179,6 +180,7 @@ class HeroScreen(Screen):
         separator_height='0',
         size_hint=(None, None), size=(200, 150))
         popup.open()
+
     
 class CityScreen(Screen):
     def __init__(self,**kwargs):
