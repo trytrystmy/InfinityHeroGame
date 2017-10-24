@@ -5,6 +5,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
 import sqlite3
 from sqlite3 import Error
 import os.path
@@ -135,8 +136,6 @@ class HeroScreen(Screen):
   WHERE id={}'''.format(leng_eq)
             
             b=GlobalAction.sqlrun(select_eq_items)
-            print(b)
-
             try:
                 if not b:
                     id_btn='eq_'+str(leng_eq)
@@ -171,6 +170,15 @@ class HeroScreen(Screen):
         self.ids.luck.text='Luck '+str(a[0][11])
     def on_leave(self):
         pass
+    def item_popout(*arg):
+        box=BoxLayout(orientation='vertical')
+        box.add_widget(Button(text='Info'))
+        box.add_widget(Button(text='Equipment'))
+        popup = Popup(title='"Weapon name"',
+        content=box,
+        separator_height='0',
+        size_hint=(None, None), size=(200, 150))
+        popup.open()
     
 class CityScreen(Screen):
     def __init__(self,**kwargs):
